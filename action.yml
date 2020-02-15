@@ -1,0 +1,10 @@
+name: 'Keep A Changelog - New Release'
+description: 'Automatically update your CHANGELOG.md for a new release. Built for the keepachangelog.com format.'
+author: 'Thomas Eizinger'
+inputs:
+  version:
+    description: 'The version of the new release'
+    required: true
+runs:
+  using: 'node12'
+  main: 'dist/index.js'

@@ -1,0 +1,47 @@
+{
+  "name": "keep-a-changelog-new-release-action",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A GitHub action for updating your Keep-A-Changelog CHANGELOG.md for new releases",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "webpack --mode production",
+    "compile": "tsc",
+    "format": "prettier --write **/*.ts",
+    "format-check": "prettier --check **/*.ts",
+    "lint": "eslint src/**/*.ts",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thomaseizinger/keep-a-changelog-new-release.git"
+  },
+  "author": "Thomas Eizinger",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.2.0",
+    "remark-parse": "^7.0.2",
+    "remark-stringify": "^7.0.4",
+    "unified": "^8.4.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.23",
+    "@types/node": "^12.7.12",
+    "@types/unist": "^2.0.3",
+    "@types/vfile": "^4.0.0",
+    "@typescript-eslint/parser": "^2.8.0",
+    "eslint": "^5.16.0",
+    "eslint-plugin-github": "^2.0.0",
+    "eslint-plugin-jest": "^22.21.0",
+    "jest": "^24.9.0",
+    "jest-circus": "^24.9.0",
+    "js-yaml": "^3.13.1",
+    "prettier": "^1.19.1",
+    "to-vfile": "^6.0.0",
+    "ts-jest": "^24.2.0",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.3",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
+  }
+}
