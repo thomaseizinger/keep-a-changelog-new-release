@@ -7,6 +7,18 @@
   resolved "https://registry.yarnpkg.com/@actions/core/-/core-1.2.0.tgz#aa5f52b26c362c821d41557e599371a42f6c0b3d"
   integrity sha512-ZKdyhlSlyz38S6YFfPnyNgCDZuAF2T0Qv5eHflNWytPS8Qjvz39bZFMry9Bb/dpSnqWcNeav5yM2CTYpJeY+Dw==
 
+"@actions/exec@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@actions/exec/-/exec-1.0.3.tgz#b967f8700d6ff011dcc91243b58bafc1bb9ab95f"
+  integrity sha512-TogJGnueOmM7ntCi0ASTUj4LapRRtDfj57Ja4IhPmg2fls28uVOPbAn8N+JifaOumN2UG3oEO/Ixek2A4NcYSA==
+  dependencies:
+    "@actions/io" "^1.0.1"
+
+"@actions/io@^1.0.1":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@actions/io/-/io-1.0.2.tgz#2f614b6e69ce14d191180451eb38e6576a6e6b27"
+  integrity sha512-J8KuFqVPr3p6U8W93DOXlXW6zFvrQAJANdS+vw0YhusLIq+bszW8zmK2Fh1C2kDPX8FMvwIl1OUcFgvJoXLbAg==
+
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.5.5":
   version "7.5.5"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.5.5.tgz#bc0782f6d69f7b7d49531219699b988f669a8f9d"
@@ -376,6 +388,11 @@
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.3.tgz#bdfd69d61e464dcc81b25159c270d75a73c1a636"
   integrity sha512-Il2DtDVRGDcqjDtE+rF8iqg1CArehSK84HZJCT7AMITlyXRBpuPhqGLDQMowraqqu1coEaimg4ZOqggt6L6L+A==
 
+"@types/node@*":
+  version "13.7.1"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.7.1.tgz#238eb34a66431b71d2aaddeaa7db166f25971a0d"
+  integrity sha512-Zq8gcQGmn4txQEJeiXo/KiLpon8TzAl0kmKH4zdWctPj05nWwp1ClMdAVEloqrQKfaC48PNLdgN/aVaLqUrluA==
+
 "@types/node@^12.7.12":
   version "12.12.14"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.14.tgz#1c1d6e3c75dba466e0326948d56e8bd72a1903d2"
@@ -385,6 +402,13 @@
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-1.0.1.tgz#0a851d3bd96498fa25c33ab7278ed3bd65f06c3e"
   integrity sha512-l42BggppR6zLmpfU6fq9HEa2oGPEI8yrSPL3GITjfRInppYFahObbIQOQK3UGxEnyQpltZLaPe75046NOZQikw==
+
+"@types/stream-buffers@^3.0.3":
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/@types/stream-buffers/-/stream-buffers-3.0.3.tgz#34e565bf64e3e4bdeee23fd4aa58d4636014a02b"
+  integrity sha512-NeFeX7YfFZDYsCfbuaOmFQ0OjSmHreKBpp7MQ4alWQBHeh2USLsj7qyMyn9t82kjqIX516CR/5SRHnARduRtbQ==
+  dependencies:
+    "@types/node" "*"
 
 "@types/unist@^2.0.0", "@types/unist@^2.0.2", "@types/unist@^2.0.3":
   version "2.0.3"
@@ -5369,6 +5393,11 @@ stream-browserify@^2.0.1:
   dependencies:
     inherits "~2.0.1"
     readable-stream "^2.0.2"
+
+stream-buffers@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/stream-buffers/-/stream-buffers-3.0.2.tgz#5249005a8d5c2d00b3a32e6e0a6ea209dc4f3521"
+  integrity sha512-DQi1h8VEBA/lURbSwFtEHnSTb9s2/pwLEaFuNhXwy1Dx3Sa0lOuYT2yNUr4/j2fs8oCAMANtrZ5OrPZtyVs3MQ==
 
 stream-each@^1.1.0:
   version "1.2.3"

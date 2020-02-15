@@ -67,34 +67,41 @@ type MarkdownNode =
 interface Options {
   version: string;
   releaseDate: string;
+  genesisHash: string;
+  owner: string;
+  repo: string;
 }
 
-function releaseTransformation({ version, releaseDate }: Options) {
+function releaseTransformation({
+  version,
+  releaseDate,
+  genesisHash,
+  owner,
+  repo
+}: Options) {
   return transformer as Transformer;
 
   function transformer(tree: MarkdownRootNode, file: VFile) {
     const previousVersion = determinePreviousVersion(tree);
     convertUnreleasedSectionToNewRelease(tree, version, releaseDate);
     addEmptyUnreleasedSection(tree);
-    updateCompareUrls(tree, version, previousVersion);
+    updateCompareUrls(tree, version, previousVersion, genesisHash, owner, repo);
 
     return tree as Node;
   }
 }
 
-function determinePreviousVersion(tree: MarkdownRootNode): string {
+function determinePreviousVersion(tree: MarkdownRootNode): string | null {
   const children = tree.children;
 
   const versions = children.filter(
     node => node.type === "heading" && node.depth === 2
   );
 
-  let unreleasedSection = versions.shift();
-
-  let previousRelease = versions.shift() as HeadingNode | undefined;
+  let previousRelease = versions[1] as HeadingNode | undefined;
 
   if (!previousRelease) {
-    throw new Error("Could not determine the release prior to this one!");
+    return null;
   }
 
   const linkReference = previousRelease.children[0];
@@ -209,36 +216,33 @@ function addEmptyUnreleasedSection(tree: MarkdownRootNode) {
 function updateCompareUrls(
   tree: MarkdownRootNode,
   newVersion: string,
-  previousVersion: string
+  previousVersion: string | null,
+  genesisHash: string,
+  owner: string,
+  repo: string
 ) {
   const children = tree.children;
 
-  const firstDefinitionNodeIndex = children.findIndex(
-    node => node.type === "definition"
+  const unreleasedDefinitionIndex = children.findIndex(
+    node => node.type === "definition" && node.label === "Unreleased"
   );
 
-  if (firstDefinitionNodeIndex === -1) {
-    throw new Error(
-      "Invalid changelog format, unable to find definitions section"
-    );
-  }
+  const before =
+    unreleasedDefinitionIndex !== -1
+      ? children.slice(0, unreleasedDefinitionIndex)
+      : children;
+  const after =
+    unreleasedDefinitionIndex !== -1
+      ? children.slice(unreleasedDefinitionIndex + 1)
+      : [];
 
-  const beforeFirstDefinition = children.slice(0, firstDefinitionNodeIndex);
-  const definitions = children.slice(firstDefinitionNodeIndex);
-
-  const firstDefinition = definitions.shift() as DefinitionNode;
-
-  const unreleasedCompareUrl = firstDefinition.url.replace(
-    previousVersion,
-    newVersion
-  );
-  const previousVersionCompareUrl = firstDefinition.url.replace(
-    "HEAD",
-    newVersion
-  );
+  const unreleasedCompareUrl = `https://github.com/${owner}/${repo}/compare/${newVersion}...HEAD`;
+  const previousVersionCompareUrl = previousVersion
+    ? `https://github.com/${owner}/${repo}/compare/${previousVersion}...${newVersion}`
+    : `https://github.com/${owner}/${repo}/compare/${genesisHash}...${newVersion}`;
 
   tree.children = [
-    ...beforeFirstDefinition,
+    ...before,
     {
       type: "definition",
       identifier: "unreleased",
@@ -251,20 +255,26 @@ function updateCompareUrls(
       url: previousVersionCompareUrl,
       label: newVersion
     },
-    ...definitions
+    ...after
   ];
 }
 
 export default async function updateChangelog(
   file: VFile,
   version: string,
-  releaseDate: string
+  releaseDate: string,
+  genesisHash: string,
+  owner: string,
+  repo: string
 ): Promise<VFile> {
   return await unified()
     .use(markdown)
     .use(releaseTransformation, {
       version,
-      releaseDate
+      releaseDate,
+      genesisHash,
+      owner,
+      repo
     })
     .use(stringify)
     .process(file);

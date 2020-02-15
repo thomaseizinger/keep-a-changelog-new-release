@@ -4,6 +4,8 @@ import { getInput } from "@actions/core/lib/core";
 interface Inputs {
   version: string;
   date: string;
+  owner: string;
+  repo: string;
 }
 
 export default function getInputs(): Inputs {
@@ -12,9 +14,18 @@ export default function getInputs(): Inputs {
   const date = formatDate(
     dateInput ? new Date(Date.parse(dateInput)) : new Date()
   );
+  const githubRepository = process.env.GITHUB_REPOSITORY;
+
+  if (!githubRepository) {
+    throw new Error("GITHUB_REPOSITORY is not set");
+  }
+
+  const [owner, repo] = githubRepository.split("/");
 
   return {
     version,
-    date
+    date,
+    owner,
+    repo
   };
 }
