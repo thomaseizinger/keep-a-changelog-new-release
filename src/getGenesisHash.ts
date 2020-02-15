@@ -12,11 +12,13 @@ export default async function getGenesisHash(): Promise<string> {
     throw new Error("git returned exit code != 0");
   }
 
-  const genesisHash = outStream.getContentsAsString("utf-8", 40);
+  const genesisHash = outStream.getContentsAsString("utf-8");
 
   if (!genesisHash) {
     throw new Error("unable to parse genesis hash from git");
   }
 
-  return genesisHash;
+  const lines = genesisHash.split("\n")
+
+  return lines[1];
 }
