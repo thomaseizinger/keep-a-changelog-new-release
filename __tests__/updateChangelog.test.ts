@@ -1,18 +1,32 @@
 import updateChangelog from "../src/updateChangelog";
 import { read } from "to-vfile";
 
-it("should update the changelog correctly", async function() {
-  const before = await read("./__tests__/fixtures/CHANGELOG.1.md", {
-    encoding: "utf-8"
-  });
-  const expected = await read("./__tests__/fixtures/CHANGELOG.1.expected.md", {
-    encoding: "utf-8"
-  });
+interface Fixture {
+  version: string;
+  date: string;
+}
 
-  const actual = await updateChangelog(before, "0.3.0", "2019-12-06");
+it.each(["empty_release", "standard"])(
+  `should update %s changelog`,
+  async function(testcase) {
+    const before = await read(`./__tests__/fixtures/${testcase}/CHANGELOG.md`, {
+      encoding: "utf-8"
+    });
+    const expected = await read(
+      `./__tests__/fixtures/${testcase}/CHANGELOG.expected.md`,
+      {
+        encoding: "utf-8"
+      }
+    );
+    const release: Fixture = await import(
+      `./fixtures/${testcase}/fixture`
+    ).then(module => module.default);
 
-  const actualContent = actual.toString("utf-8");
-  const expectedContent = expected.toString("utf-8");
+    const actual = await updateChangelog(before, release.version, release.date);
 
-  expect(actualContent).toEqual(expectedContent);
-});
+    const actualContent = actual.toString("utf-8");
+    const expectedContent = expected.toString("utf-8");
+
+    expect(actualContent).toEqual(expectedContent);
+  }
+);
