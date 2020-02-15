@@ -5,6 +5,9 @@ inputs:
   version:
     description: 'The version of the new release'
     required: true
+  date:
+    description: 'The date of the release. Defaults to today at the execution time. Accepts any format that Date.parse will accept.'
+    required: false
 runs:
   using: 'node12'
   main: 'dist/index.js'
