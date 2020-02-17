@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.1.0] - 2020-02-17
 
+### Added
+
+-   Add support for creating the first release using this action.
+
 ## [1.0.0] - 2020-02-15
 
 ### Added
