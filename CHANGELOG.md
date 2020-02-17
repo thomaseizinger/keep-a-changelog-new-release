@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+-   Commit hook for preventing dist/index.js to be out of date after modifying Typescript files.
+
 ## [1.1.0] - 2020-02-17
 
 ### Added
