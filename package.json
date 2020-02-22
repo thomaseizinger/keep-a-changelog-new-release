@@ -5,6 +5,7 @@
   "description": "A GitHub action for updating your Keep-A-Changelog CHANGELOG.md for new releases",
   "main": "dist/index.js",
   "scripts": {
+    "postinstall": "git config core.hooksPath .githooks",
     "build": "webpack --mode production",
     "compile": "tsc",
     "format": "prettier --write **/*.ts",
