@@ -60,4 +60,4 @@ The action will do nothing else apart from modifying the changelog.
 It neither creates a commit, nor does it push anything to anywhere.
 You will have to do that as part of your workflow if you need this behaviour.
 
-Checkout [this blogpost](TODO) for a complete workflow of an automated release using GitFlow and Github actions.
+Checkout [this blogpost](https://blog.eizinger.io/12274/using-github-actions-to-automate-gitflow-style-releases) or [this repository](https://github.com/thomaseizinger/github-action-gitflow-release-workflow) for a set of workflows of an automated release using GitFlow and Github actions.
