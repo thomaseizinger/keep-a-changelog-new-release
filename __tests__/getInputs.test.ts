@@ -42,3 +42,22 @@ test("can handle ISO8601 date", function() {
 
   expect(inputs).toHaveProperty("date", "2019-12-09");
 });
+
+test("changelog path is optional but has a default", function() {
+  const inputs = morph(getInputs, {
+    INPUT_VERSION: "0.6.0",
+    GITHUB_REPOSITORY: "foo/bar"
+  });
+
+  expect(inputs).toHaveProperty("changelogPath", "./CHANGELOG.md");
+});
+
+test("parse changelog path from input", function() {
+  const inputs = morph(getInputs, {
+    INPUT_VERSION: "0.6.0",
+    GITHUB_REPOSITORY: "foo/bar",
+    INPUT_CHANGELOGPATH: "./foo/bar/CHANGELOG.md"
+  });
+
+  expect(inputs).toHaveProperty("changelogPath", "./foo/bar/CHANGELOG.md");
+});

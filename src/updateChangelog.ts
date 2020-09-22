@@ -1,9 +1,8 @@
 import unified, { Transformer } from "unified";
 import markdown from "remark-parse";
 import stringify from "remark-stringify";
-import vFile, { VFile } from "vfile";
+import { VFile } from "vfile";
 import { Node, Position } from "unist";
-import { version } from "punycode";
 
 type MarkdownRootNode = {
   type: "root";
@@ -81,7 +80,7 @@ function releaseTransformation({
 }: Options) {
   return transformer as Transformer;
 
-  function transformer(tree: MarkdownRootNode, file: VFile) {
+  function transformer(tree: MarkdownRootNode, _file: VFile) {
     const previousVersion = determinePreviousVersion(tree);
     convertUnreleasedSectionToNewRelease(tree, version, releaseDate);
     addEmptyUnreleasedSection(tree);
@@ -98,7 +97,7 @@ function determinePreviousVersion(tree: MarkdownRootNode): string | null {
     node => node.type === "heading" && node.depth === 2
   );
 
-  let previousRelease = versions[1] as HeadingNode | undefined;
+  const previousRelease = versions[1] as HeadingNode | undefined;
 
   if (!previousRelease) {
     return null;
@@ -171,7 +170,7 @@ function convertUnreleasedSectionToNewRelease(
     },
     {
       type: "text",
-      value: value
+      value
     }
   ];
 
