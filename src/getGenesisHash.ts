@@ -18,7 +18,7 @@ export default async function getGenesisHash(): Promise<string> {
     throw new Error("unable to parse genesis hash from git");
   }
 
-  const lines = genesisHash.split("\n")
+  const lines = genesisHash.split("\n");
 
   return lines[1];
 }

@@ -11,6 +11,9 @@ inputs:
   date:
     description: 'The date of the release. Defaults to today at the execution time. Accepts any format that Date.parse will accept.'
     required: false
+  changelogPath:
+    description: 'The path to the changelog file. Defaults to `./CHANGELOG.md`'
+    required: false
 runs:
   using: 'node12'
   main: 'dist/index.js'

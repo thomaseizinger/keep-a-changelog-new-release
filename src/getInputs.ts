@@ -6,6 +6,7 @@ interface Inputs {
   date: string;
   owner: string;
   repo: string;
+  changelogPath: string;
 }
 
 export default function getInputs(): Inputs {
@@ -14,6 +15,7 @@ export default function getInputs(): Inputs {
   const date = formatDate(
     dateInput ? new Date(Date.parse(dateInput)) : new Date()
   );
+  const changelogPath = getInput("changelogPath") || "./CHANGELOG.md";
   const githubRepository = process.env.GITHUB_REPOSITORY;
 
   if (!githubRepository) {
@@ -26,6 +28,7 @@ export default function getInputs(): Inputs {
     version,
     date,
     owner,
-    repo
+    repo,
+    changelogPath
   };
 }
