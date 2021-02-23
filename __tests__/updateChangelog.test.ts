@@ -9,7 +9,7 @@ interface Fixture {
   repo: string;
 }
 
-it.each(["empty_release", "standard", "first_release"])(
+it.each(["empty_release", "standard", "first_release", "lowercase_link_reference"])(
   `should update %s changelog`,
   async function(testcase) {
     const before = await read(`./__tests__/fixtures/${testcase}/CHANGELOG.md`, {

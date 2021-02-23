@@ -223,7 +223,7 @@ function updateCompareUrls(
   const children = tree.children;
 
   const unreleasedDefinitionIndex = children.findIndex(
-    node => node.type === "definition" && node.label === "Unreleased"
+    node => node.type === "definition" && node.identifier === "unreleased"
   );
 
   const before =
