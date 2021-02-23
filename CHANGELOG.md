@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+-   Allow `Unreleased` link reference to be lowercase.
+
 ## [1.2.0] - 2020-09-22
 
 ### Added
