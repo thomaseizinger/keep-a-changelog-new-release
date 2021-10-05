@@ -1,7 +1,8 @@
 import formatDate from "./formatDate";
-import { getInput } from "@actions/core/lib/core";
+import { getInput, warning } from "@actions/core/lib/core";
 
 interface Inputs {
+  tag: string;
   version: string;
   date: string;
   owner: string;
@@ -9,8 +10,26 @@ interface Inputs {
   changelogPath: string;
 }
 
+function parseTagAndVersion(): [string, string] {
+  const tagInput = getInput("tag");
+  if (tagInput) {
+    const version = tagInput.startsWith("v") ? tagInput.substring(1) : tagInput;
+    return [tagInput, version];
+  } else {
+    const versionInput = getInput("version");
+
+    if (!versionInput) {
+      throw new Error("Neither version nor tag specified");
+    }
+
+    warning("Version argument will be deprecated soon, use tag instead.");
+    return [versionInput, versionInput];
+  }
+}
+
 export default function getInputs(): Inputs {
-  const version = getInput("version", { required: true });
+  const [tag, version] = parseTagAndVersion();
+
   const dateInput = getInput("date");
   const date = formatDate(
     dateInput ? new Date(Date.parse(dateInput)) : new Date()
@@ -25,6 +44,7 @@ export default function getInputs(): Inputs {
   const [owner, repo] = githubRepository.split("/");
 
   return {
+    tag,
     version,
     date,
     owner,

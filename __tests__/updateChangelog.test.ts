@@ -2,6 +2,7 @@ import updateChangelog from "../src/updateChangelog";
 import { read, write } from "to-vfile";
 
 interface Fixture {
+  tag: string;
   version: string;
   date: string;
   genesisHash: string;
@@ -9,7 +10,7 @@ interface Fixture {
   repo: string;
 }
 
-it.each(["empty_release", "standard", "first_release", "lowercase_link_reference"])(
+it.each(["empty_release", "standard", "first_release", "lowercase_link_reference", "tag_release", "tag_on_tag"])(
   `should update %s changelog`,
   async function(testcase) {
     const before = await read(`./__tests__/fixtures/${testcase}/CHANGELOG.md`, {
@@ -27,6 +28,7 @@ it.each(["empty_release", "standard", "first_release", "lowercase_link_reference
 
     const actual = await updateChangelog(
       before,
+      release.tag,
       release.version,
       release.date,
       release.genesisHash,
