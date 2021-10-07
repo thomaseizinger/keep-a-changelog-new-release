@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+-  New optional `tag` argument allowing `v`-prefixed versions
+
+### Changed
+
+-  The `version` argument is no longer required
+
+### Deprecated
+
+-  The `version` argument will be replaced in favor of the `tag` argument
+
 ## [1.2.1] - 2021-02-23
 
 ### Fixed
