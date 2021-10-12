@@ -6,13 +6,14 @@ import getGenesisHash from "./getGenesisHash";
 
 async function run(): Promise<void> {
   try {
-    const { version, date, owner, repo, changelogPath } = getInputs();
+    const { tag, version, date, owner, repo, changelogPath } = getInputs();
 
     const genesisHash = await getGenesisHash();
     const changelog = await read(changelogPath, { encoding: "utf-8" });
 
     const newChangelog = await updateChangelog(
       changelog,
+      tag,
       version,
       date,
       genesisHash,

@@ -64,6 +64,7 @@ type MarkdownNode =
   | TextNode;
 
 interface Options {
+  tag: string;
   version: string;
   releaseDate: string;
   genesisHash: string;
@@ -72,6 +73,7 @@ interface Options {
 }
 
 function releaseTransformation({
+  tag,
   version,
   releaseDate,
   genesisHash,
@@ -84,7 +86,15 @@ function releaseTransformation({
     const previousVersion = determinePreviousVersion(tree);
     convertUnreleasedSectionToNewRelease(tree, version, releaseDate);
     addEmptyUnreleasedSection(tree);
-    updateCompareUrls(tree, version, previousVersion, genesisHash, owner, repo);
+    updateCompareUrls(
+      tree,
+      tag,
+      version,
+      previousVersion,
+      genesisHash,
+      owner,
+      repo
+    );
 
     return tree as Node;
   }
@@ -94,32 +104,25 @@ function determinePreviousVersion(tree: MarkdownRootNode): string | null {
   const children = tree.children;
 
   const versions = children.filter(
-    node => node.type === "heading" && node.depth === 2
+    node => node.type === "definition"
   );
 
-  const previousRelease = versions[1] as HeadingNode | undefined;
+  const previousRelease = versions[1] as DefinitionNode | undefined;
 
   if (!previousRelease) {
     return null;
   }
 
-  const linkReference = previousRelease.children[0];
+  const link = previousRelease.url;
+  const split = link.split("...");
 
-  if (!linkReference || linkReference.type !== "linkReference") {
+  if (split.length !== 2) {
     throw new Error(
-      "Invalid changelog format, previous version is not a link reference"
+      "Invalid changelog format, compare url is not standard"
     );
   }
 
-  const linkReferenceTextNode = linkReference.children[0];
-
-  if (!linkReferenceTextNode) {
-    throw new Error(
-      "Invalid changelog format, link reference does not have a text"
-    );
-  }
-
-  return linkReferenceTextNode.value;
+  return split[1];
 }
 
 function convertUnreleasedSectionToNewRelease(
@@ -214,8 +217,9 @@ function addEmptyUnreleasedSection(tree: MarkdownRootNode) {
 
 function updateCompareUrls(
   tree: MarkdownRootNode,
+  newTag: string,
   newVersion: string,
-  previousVersion: string | null,
+  previousTag: string | null,
   genesisHash: string,
   owner: string,
   repo: string
@@ -235,10 +239,10 @@ function updateCompareUrls(
       ? children.slice(unreleasedDefinitionIndex + 1)
       : [];
 
-  const unreleasedCompareUrl = `https://github.com/${owner}/${repo}/compare/${newVersion}...HEAD`;
-  const previousVersionCompareUrl = previousVersion
-    ? `https://github.com/${owner}/${repo}/compare/${previousVersion}...${newVersion}`
-    : `https://github.com/${owner}/${repo}/compare/${genesisHash}...${newVersion}`;
+  const unreleasedCompareUrl = `https://github.com/${owner}/${repo}/compare/${newTag}...HEAD`;
+  const previousVersionCompareUrl = previousTag
+    ? `https://github.com/${owner}/${repo}/compare/${previousTag}...${newTag}`
+    : `https://github.com/${owner}/${repo}/compare/${genesisHash}...${newTag}`;
 
   tree.children = [
     ...before,
@@ -260,6 +264,7 @@ function updateCompareUrls(
 
 export default async function updateChangelog(
   file: VFile,
+  tag: string,
   version: string,
   releaseDate: string,
   genesisHash: string,
@@ -269,6 +274,7 @@ export default async function updateChangelog(
   return await unified()
     .use(markdown)
     .use(releaseTransformation, {
+      tag,
       version,
       releaseDate,
       genesisHash,
