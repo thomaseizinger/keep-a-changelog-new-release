@@ -10,39 +10,43 @@ interface Fixture {
   repo: string;
 }
 
-it.each(["empty_release", "standard", "first_release", "lowercase_link_reference", "tag_release", "tag_on_tag"])(
-  `should update %s changelog`,
-  async function(testcase) {
-    const before = await read(`./__tests__/fixtures/${testcase}/CHANGELOG.md`, {
+it.each([
+  "empty_release",
+  "standard",
+  "first_release",
+  "lowercase_link_reference",
+  "tag_release",
+  "tag_on_tag"
+])(`should update %s changelog`, async function(testcase) {
+  const before = await read(`./__tests__/fixtures/${testcase}/CHANGELOG.md`, {
+    encoding: "utf-8"
+  });
+  const expected = await read(
+    `./__tests__/fixtures/${testcase}/CHANGELOG.expected.md`,
+    {
       encoding: "utf-8"
-    });
-    const expected = await read(
-      `./__tests__/fixtures/${testcase}/CHANGELOG.expected.md`,
-      {
-        encoding: "utf-8"
-      }
-    );
-    const release: Fixture = await import(
-      `./fixtures/${testcase}/fixture`
-    ).then(module => module.default);
+    }
+  );
+  const release: Fixture = await import(`./fixtures/${testcase}/fixture`).then(
+    module => module.default
+  );
 
-    const actual = await updateChangelog(
-      before,
-      release.tag,
-      release.version,
-      release.date,
-      release.genesisHash,
-      release.owner,
-      release.repo
-    );
-    actual.path = `./__tests__/fixtures/${testcase}/CHANGELOG.actual.md`;
-    await write(actual, {
-      encoding: "utf-8"
-    });
+  const actual = await updateChangelog(
+    before,
+    release.tag,
+    release.version,
+    release.date,
+    release.genesisHash,
+    release.owner,
+    release.repo
+  );
+  actual.path = `./__tests__/fixtures/${testcase}/CHANGELOG.actual.md`;
+  await write(actual, {
+    encoding: "utf-8"
+  });
 
-    const actualContent = actual.toString("utf-8");
-    const expectedContent = expected.toString("utf-8");
+  const actualContent = actual.toString("utf-8");
+  const expectedContent = expected.toString("utf-8");
 
-    expect(actualContent).toEqual(expectedContent);
-  }
-);
+  expect(actualContent).toEqual(expectedContent);
+});

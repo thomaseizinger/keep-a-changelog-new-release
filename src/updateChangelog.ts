@@ -103,9 +103,7 @@ function releaseTransformation({
 function determinePreviousVersion(tree: MarkdownRootNode): string | null {
   const children = tree.children;
 
-  const versions = children.filter(
-    node => node.type === "definition"
-  );
+  const versions = children.filter(node => node.type === "definition");
 
   const previousRelease = versions[1] as DefinitionNode | undefined;
 
@@ -117,9 +115,7 @@ function determinePreviousVersion(tree: MarkdownRootNode): string | null {
   const split = link.split("...");
 
   if (split.length !== 2) {
-    throw new Error(
-      "Invalid changelog format, compare url is not standard"
-    );
+    throw new Error("Invalid changelog format, compare url is not standard");
   }
 
   return split[1];
