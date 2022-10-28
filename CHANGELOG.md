@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+-  Use `node16` to run actions instead of deprecated Node 12. See [this](https://github.blog/changelog/2022-09-22-github-actions-all-actions-will-begin-running-on-node16-instead-of-node12/) for more details.
 ## [1.3.0] - 2021-10-12
 
 ### Added
@@ -45,7 +48,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 -   Initial release of this action!
--   
+
 [Unreleased]: https://github.com/thomaseizinger/keep-a-changelog-new-release/compare/1.3.0...HEAD
 
 [1.3.0]: https://github.com/thomaseizinger/keep-a-changelog-new-release/compare/1.2.1...1.3.0
@@ -57,4 +60,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [1.1.0]: https://github.com/thomaseizinger/keep-a-changelog-new-release/compare/1.0.0...1.1.0
 
 [1.0.0]: https://github.com/thomaseizinger/keep-a-changelog-new-release/compare/8f254ca247120d87500da53956ae6c0c9d9fae3e...1.0.0
-
