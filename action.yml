@@ -1,6 +1,6 @@
-name: 'Keep A Changelog - New Release'
+name: 'Keep Changelog'
 description: 'Automatically update your CHANGELOG.md for a new release. Built for the keepachangelog.com format.'
-author: 'Thomas Eizinger'
+author: 'Misha Behersky'
 branding:
   icon: list
   color: white
