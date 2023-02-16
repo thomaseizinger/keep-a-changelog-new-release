@@ -53,7 +53,7 @@ jobs:
     - name: Update changelog
       uses: thomaseizinger/keep-a-changelog-new-release@v1
       with:
-        version: 0.6.0 # You probably want to have this dynamic :)
+        tag: v0.6.0 # You probably want to have this dynamic :)
 ```
 
 The action will do nothing else apart from modifying the changelog.
