@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+-  Update action to use `node16`
+
 ## [1.3.0] - 2021-10-12
 
 ### Added
