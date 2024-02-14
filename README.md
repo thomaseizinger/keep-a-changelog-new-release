@@ -51,7 +51,7 @@ jobs:
     - uses: actions/checkout@v2
     
     - name: Update changelog
-      uses: thomaseizinger/keep-a-changelog-new-release@v1
+      uses: thomaseizinger/keep-a-changelog-new-release@v2
       with:
         tag: v0.6.0 # You probably want to have this dynamic :)
 ```
