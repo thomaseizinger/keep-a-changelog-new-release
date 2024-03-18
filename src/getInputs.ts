@@ -49,6 +49,6 @@ export default function getInputs(): Inputs {
     date,
     owner,
     repo,
-    changelogPath
+    changelogPath,
   };
 }

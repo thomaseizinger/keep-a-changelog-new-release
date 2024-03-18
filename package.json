@@ -1,6 +1,6 @@
 {
   "name": "keep-a-changelog-new-release-action",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "description": "A GitHub action for updating your Keep-A-Changelog CHANGELOG.md for new releases",
   "main": "dist/index.js",
@@ -23,7 +23,7 @@
     "@actions/core": "^1.2.0",
     "@actions/exec": "^1.0.3",
     "remark-parse": "^7.0.2",
-    "remark-stringify": "^7.0.4",
+    "remark-stringify": "^9.0.0",
     "stream-buffers": "^3.0.2",
     "unified": "^8.4.2"
   },

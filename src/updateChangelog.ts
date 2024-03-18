@@ -78,7 +78,7 @@ function releaseTransformation({
   releaseDate,
   genesisHash,
   owner,
-  repo
+  repo,
 }: Options) {
   return transformer as Transformer;
 
@@ -103,9 +103,7 @@ function releaseTransformation({
 function determinePreviousVersion(tree: MarkdownRootNode): string | null {
   const children = tree.children;
 
-  const versions = children.filter(
-    node => node.type === "definition"
-  );
+  const versions = children.filter((node) => node.type === "definition");
 
   const previousRelease = versions[1] as DefinitionNode | undefined;
 
@@ -117,9 +115,7 @@ function determinePreviousVersion(tree: MarkdownRootNode): string | null {
   const split = link.split("...");
 
   if (split.length !== 2) {
-    throw new Error(
-      "Invalid changelog format, compare url is not standard"
-    );
+    throw new Error("Invalid changelog format, compare url is not standard");
   }
 
   return split[1];
@@ -134,7 +130,7 @@ function convertUnreleasedSectionToNewRelease(
 
   // the unreleased section should always be at the top
   const unreleasedSection = children.find(
-    node => node.type === "heading" && node.depth === 2
+    (node) => node.type === "heading" && node.depth === 2
   ) as HeadingNode | undefined;
 
   if (!unreleasedSection) {
@@ -167,14 +163,14 @@ function convertUnreleasedSectionToNewRelease(
       children: [
         {
           type: "text",
-          value: version
-        }
-      ]
+          value: version,
+        },
+      ],
     },
     {
       type: "text",
-      value
-    }
+      value,
+    },
   ];
 
   unreleasedSection.children = newReleaseSection;
@@ -184,7 +180,7 @@ function addEmptyUnreleasedSection(tree: MarkdownRootNode) {
   const children = tree.children;
 
   const firstHeadingSectionIndex = children.findIndex(
-    node => node.type === "heading" && node.depth === 2
+    (node) => node.type === "heading" && node.depth === 2
   );
 
   const beforeFirstHeading = children.slice(0, firstHeadingSectionIndex);
@@ -205,13 +201,13 @@ function addEmptyUnreleasedSection(tree: MarkdownRootNode) {
           children: [
             {
               type: "text",
-              value: "Unreleased"
-            }
-          ]
-        }
-      ]
+              value: "Unreleased",
+            },
+          ],
+        },
+      ],
     },
-    ...afterFirstHeading
+    ...afterFirstHeading,
   ];
 }
 
@@ -227,7 +223,7 @@ function updateCompareUrls(
   const children = tree.children;
 
   const unreleasedDefinitionIndex = children.findIndex(
-    node => node.type === "definition" && node.identifier === "unreleased"
+    (node) => node.type === "definition" && node.identifier === "unreleased"
   );
 
   const before =
@@ -250,15 +246,15 @@ function updateCompareUrls(
       type: "definition",
       identifier: "unreleased",
       url: unreleasedCompareUrl,
-      label: "Unreleased"
+      label: "unreleased",
     },
     {
       type: "definition",
       identifier: newVersion,
       url: previousVersionCompareUrl,
-      label: newVersion
+      label: newVersion,
     },
-    ...after
+    ...after,
   ];
 }
 
@@ -279,7 +275,12 @@ export default async function updateChangelog(
       releaseDate,
       genesisHash,
       owner,
-      repo
+      repo,
+    })
+    .data("settings", {
+      listItemIndent: "one",
+      tightDefinitions: true,
+      bullet: "-",
     })
     .use(stringify)
     .process(file);
