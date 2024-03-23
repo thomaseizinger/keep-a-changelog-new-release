@@ -23,11 +23,7 @@ async function run(): Promise<void> {
 
     await write(newChangelog, { encoding: "utf-8" });
   } catch (error) {
-    if (error instanceof Error) {
-      setFailed(error.message);
-    } else {
-      setFailed(`${error}`);
-    }
+    setFailed(error.message);
   }
 }
 
