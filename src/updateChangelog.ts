@@ -80,7 +80,7 @@ function releaseTransformation({
   owner,
   repo
 }: Options) {
-  return transformer as Transformer;
+  return transformer as unknown as Transformer;
 
   function transformer(tree: MarkdownRootNode, _file: VFile) {
     const previousVersion = determinePreviousVersion(tree);
@@ -271,6 +271,7 @@ export default async function updateChangelog(
   owner: string,
   repo: string
 ): Promise<VFile> {
+  // @ts-ignore
   return await unified()
     .use(markdown)
     .use(releaseTransformation, {
