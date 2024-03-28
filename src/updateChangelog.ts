@@ -282,7 +282,7 @@ export default async function updateChangelog(
       repo
     })
     .data("settings", {
-      listItemIndent: "one",
+      listItemIndent: "1",
       tightDefinitions: true,
       bullet: "-"
     })
