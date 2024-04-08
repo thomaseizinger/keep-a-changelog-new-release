@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.0] - 2024-04-08
+
 ### Fixed
 
 - Spacing in Markdown lists and definitions
@@ -60,9 +62,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Initial release of this action!
--
 
-[unreleased]: https://github.com/thomaseizinger/keep-a-changelog-new-release/compare/2.0.0...HEAD
+[unreleased]: https://github.com/thomaseizinger/keep-a-changelog-new-release/compare/3.0.0...HEAD
+[3.0.0]: https://github.com/thomaseizinger/keep-a-changelog-new-release/compare/2.0.0...3.0.0
 [2.0.0]: https://github.com/thomaseizinger/keep-a-changelog-new-release/compare/1.3.0...2.0.0
 [1.3.0]: https://github.com/thomaseizinger/keep-a-changelog-new-release/compare/1.2.1...1.3.0
 [1.2.1]: https://github.com/thomaseizinger/keep-a-changelog-new-release/compare/1.2.0...1.2.1
