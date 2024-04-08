@@ -80,7 +80,7 @@ function releaseTransformation({
   owner,
   repo
 }: Options) {
-  return transformer as Transformer;
+  return transformer as unknown as Transformer;
 
   function transformer(tree: MarkdownRootNode, _file: VFile) {
     const previousVersion = determinePreviousVersion(tree);
@@ -250,7 +250,7 @@ function updateCompareUrls(
       type: "definition",
       identifier: "unreleased",
       url: unreleasedCompareUrl,
-      label: "Unreleased"
+      label: "unreleased"
     },
     {
       type: "definition",
@@ -271,6 +271,7 @@ export default async function updateChangelog(
   owner: string,
   repo: string
 ): Promise<VFile> {
+  // @ts-ignore
   return await unified()
     .use(markdown)
     .use(releaseTransformation, {
@@ -280,6 +281,11 @@ export default async function updateChangelog(
       genesisHash,
       owner,
       repo
+    })
+    .data("settings", {
+      listItemIndent: "1",
+      tightDefinitions: true,
+      bullet: "-"
     })
     .use(stringify)
     .process(file);
