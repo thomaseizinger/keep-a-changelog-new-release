@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add a new `release-notes` output to the action containing the release notes for the newly released versions.
+
 ## [3.0.0] - 2024-04-08
 
 ### Fixed
