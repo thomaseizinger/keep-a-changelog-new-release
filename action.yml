@@ -17,6 +17,9 @@ inputs:
   changelogPath:
     description: 'The path to the changelog file. Defaults to `./CHANGELOG.md`'
     required: false
+outputs:
+  release-notes:
+    description: 'The release notes of the newly released version'
 runs:
   using: 'node20'
   main: 'dist/index.js'
