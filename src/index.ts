@@ -20,14 +20,14 @@ async function run(): Promise<void> {
       date,
       genesisHash,
       owner,
-      repo
+      repo,
     );
     await write(newChangelog, { encoding: "utf-8" });
 
     const releaseNotes = getReleaseNotes(newChangelog, version);
     setOutput("release-notes", releaseNotes);
   } catch (error) {
-    setFailed(error.message);
+    setFailed(error as Error);
   }
 }
 

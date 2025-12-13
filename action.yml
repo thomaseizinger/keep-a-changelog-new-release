@@ -1,25 +1,25 @@
-name: 'Keep A Changelog - New Release'
-description: 'Automatically update your CHANGELOG.md for a new release. Built for the keepachangelog.com format.'
-author: 'Thomas Eizinger'
+name: "Keep A Changelog - New Release"
+description: "Automatically update your CHANGELOG.md for a new release. Built for the keepachangelog.com format."
+author: "Thomas Eizinger"
 branding:
   icon: list
   color: white
 inputs:
   version:
-    description: 'The version of the new release'
+    description: "The version of the new release"
     required: false
   tag:
-    description: 'The tag that contains the version of the new release'
+    description: "The tag that contains the version of the new release"
     required: false
   date:
-    description: 'The date of the release. Defaults to today at the execution time. Accepts any format that Date.parse will accept.'
+    description: "The date of the release. Defaults to today at the execution time. Accepts any format that Date.parse will accept."
     required: false
   changelogPath:
-    description: 'The path to the changelog file. Defaults to `./CHANGELOG.md`'
+    description: "The path to the changelog file. Defaults to `./CHANGELOG.md`"
     required: false
 outputs:
   release-notes:
-    description: 'The release notes of the newly released version'
+    description: "The release notes of the newly released version"
 runs:
-  using: 'node20'
-  main: 'dist/index.js'
+  using: "node20"
+  main: "dist/index.js"

@@ -5,7 +5,7 @@ export default async function getGenesisHash(): Promise<string> {
   const outStream = new WritableStreamBuffer();
 
   const exitCode = await exec("git", ["rev-list", "--max-parents=0", "HEAD"], {
-    outStream
+    outStream,
   });
 
   if (exitCode !== 0) {

@@ -32,7 +32,7 @@ export default function getInputs(): Inputs {
 
   const dateInput = getInput("date");
   const date = formatDate(
-    dateInput ? new Date(Date.parse(dateInput)) : new Date()
+    dateInput ? new Date(Date.parse(dateInput)) : new Date(),
   );
   const changelogPath = getInput("changelogPath") || "./CHANGELOG.md";
   const githubRepository = process.env.GITHUB_REPOSITORY;
@@ -49,6 +49,6 @@ export default function getInputs(): Inputs {
     date,
     owner,
     repo,
-    changelogPath
+    changelogPath,
   };
 }

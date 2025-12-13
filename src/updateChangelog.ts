@@ -1,9 +1,15 @@
-import unified, { Transformer } from "unified";
+import { unified, Transformer } from "unified";
 import markdown from "remark-parse";
 import stringify from "remark-stringify";
 import { VFile } from "vfile";
 import { Node, Position } from "unist";
-import { MarkdownRootNode, HeadingNode, DefinitionNode, LinkReferenceNode, TextNode } from "markdown-nodes";
+import {
+  MarkdownRootNode,
+  HeadingNode,
+  DefinitionNode,
+  LinkReferenceNode,
+  TextNode,
+} from "markdown-nodes";
 
 interface Options {
   tag: string;
@@ -20,14 +26,15 @@ function releaseTransformation({
   releaseDate,
   genesisHash,
   owner,
-  repo
+  repo,
 }: Options) {
   return transformer as unknown as Transformer;
 
   function transformer(tree: MarkdownRootNode, _file: VFile) {
-    const previousVersion = determinePreviousVersion(tree);
     convertUnreleasedSectionToNewRelease(tree, version, releaseDate);
     addEmptyUnreleasedSection(tree);
+
+    const previousVersion = determinePreviousVersion(tree);
     updateCompareUrls(
       tree,
       tag,
@@ -35,7 +42,7 @@ function releaseTransformation({
       previousVersion,
       genesisHash,
       owner,
-      repo
+      repo,
     );
 
     return tree as Node;
@@ -45,9 +52,7 @@ function releaseTransformation({
 function determinePreviousVersion(tree: MarkdownRootNode): string | null {
   const children = tree.children;
 
-  const versions = children.filter(
-    node => node.type === "definition"
-  );
+  const versions = children.filter((node) => node.type === "definition");
 
   const previousRelease = versions[1] as DefinitionNode | undefined;
 
@@ -59,9 +64,7 @@ function determinePreviousVersion(tree: MarkdownRootNode): string | null {
   const split = link.split("...");
 
   if (split.length !== 2) {
-    throw new Error(
-      "Invalid changelog format, compare url is not standard"
-    );
+    throw new Error("Invalid changelog format, compare url is not standard");
   }
 
   return split[1];
@@ -70,30 +73,31 @@ function determinePreviousVersion(tree: MarkdownRootNode): string | null {
 function convertUnreleasedSectionToNewRelease(
   tree: MarkdownRootNode,
   version: string,
-  releaseDate: string
+  releaseDate: string,
 ) {
   const children = tree.children;
 
   // the unreleased section should always be at the top
   const unreleasedSection = children.find(
-    node => node.type === "heading" && node.depth === 2
+    (node) => node.type === "heading" && node.depth === 2,
   ) as HeadingNode | undefined;
 
   if (!unreleasedSection) {
     throw new Error(
-      "Invalid changelog format, could not find Unreleased section"
+      "Invalid changelog format, could not find Unreleased section",
     );
   }
 
   const child = unreleasedSection.children.shift();
 
+  // remark parses shorcut links as "text" if it can't locate the footer link, which is the case for the first release test case
   if (
     !child ||
     unreleasedSection.children.length > 0 ||
-    child.type !== "linkReference"
+    (child.type !== "linkReference" && child.type !== "text")
   ) {
     throw new Error(
-      "Invalid changelog format, Unreleased section should only be a link reference"
+      "Invalid changelog format, Unreleased section should only be a link reference",
     );
   }
 
@@ -109,14 +113,14 @@ function convertUnreleasedSectionToNewRelease(
       children: [
         {
           type: "text",
-          value: version
-        }
-      ]
+          value: version,
+        },
+      ],
     },
     {
       type: "text",
-      value
-    }
+      value,
+    },
   ];
 
   unreleasedSection.children = newReleaseSection;
@@ -126,7 +130,7 @@ function addEmptyUnreleasedSection(tree: MarkdownRootNode) {
   const children = tree.children;
 
   const firstHeadingSectionIndex = children.findIndex(
-    node => node.type === "heading" && node.depth === 2
+    (node) => node.type === "heading" && node.depth === 2,
   );
 
   const beforeFirstHeading = children.slice(0, firstHeadingSectionIndex);
@@ -147,13 +151,13 @@ function addEmptyUnreleasedSection(tree: MarkdownRootNode) {
           children: [
             {
               type: "text",
-              value: "Unreleased"
-            }
-          ]
-        }
-      ]
+              value: "Unreleased",
+            },
+          ],
+        },
+      ],
     },
-    ...afterFirstHeading
+    ...afterFirstHeading,
   ];
 }
 
@@ -164,12 +168,12 @@ function updateCompareUrls(
   previousTag: string | null,
   genesisHash: string,
   owner: string,
-  repo: string
+  repo: string,
 ) {
   const children = tree.children;
 
   const unreleasedDefinitionIndex = children.findIndex(
-    node => node.type === "definition" && node.identifier === "unreleased"
+    (node) => node.type === "definition" && node.identifier === "unreleased",
   );
 
   const before =
@@ -192,15 +196,15 @@ function updateCompareUrls(
       type: "definition",
       identifier: "unreleased",
       url: unreleasedCompareUrl,
-      label: "unreleased"
+      label: "unreleased",
     },
     {
       type: "definition",
       identifier: newVersion,
       url: previousVersionCompareUrl,
-      label: newVersion
+      label: newVersion,
     },
-    ...after
+    ...after,
   ];
 }
 
@@ -211,9 +215,8 @@ export default async function updateChangelog(
   releaseDate: string,
   genesisHash: string,
   owner: string,
-  repo: string
+  repo: string,
 ): Promise<VFile> {
-  // @ts-ignore
   return await unified()
     .use(markdown)
     .use(releaseTransformation, {
@@ -222,12 +225,12 @@ export default async function updateChangelog(
       releaseDate,
       genesisHash,
       owner,
-      repo
+      repo,
     })
     .data("settings", {
-      listItemIndent: "1",
+      listItemIndent: "one",
       tightDefinitions: true,
-      bullet: "-"
+      bullet: "-",
     })
     .use(stringify)
     .process(file);
