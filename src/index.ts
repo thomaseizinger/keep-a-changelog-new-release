@@ -27,7 +27,7 @@ async function run(): Promise<void> {
     const releaseNotes = getReleaseNotes(newChangelog, version);
     setOutput("release-notes", releaseNotes);
   } catch (error) {
-    setFailed(error.message);
+    setFailed(error as Error);
   }
 }
 

@@ -1,4 +1,4 @@
-import unified, { Transformer } from "unified";
+import { unified, Transformer } from "unified";
 import markdown from "remark-parse";
 import stringify from "remark-stringify";
 import { VFile } from "vfile";
@@ -87,10 +87,11 @@ function convertUnreleasedSectionToNewRelease(
 
   const child = unreleasedSection.children.shift();
 
+  // remark parses shorcut links as "text" if it can't locate the footer link, which is the case for the first release test case
   if (
     !child ||
     unreleasedSection.children.length > 0 ||
-    child.type !== "linkReference"
+    (child.type !== "linkReference" && child.type !== "text")
   ) {
     throw new Error(
       "Invalid changelog format, Unreleased section should only be a link reference"
@@ -213,7 +214,6 @@ export default async function updateChangelog(
   owner: string,
   repo: string
 ): Promise<VFile> {
-  // @ts-ignore
   return await unified()
     .use(markdown)
     .use(releaseTransformation, {
@@ -225,7 +225,7 @@ export default async function updateChangelog(
       repo
     })
     .data("settings", {
-      listItemIndent: "1",
+      listItemIndent: "one",
       tightDefinitions: true,
       bullet: "-"
     })

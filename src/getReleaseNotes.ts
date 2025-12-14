@@ -1,4 +1,4 @@
-import unified, { Transformer } from "unified";
+import { unified, Transformer } from "unified";
 import markdown from "remark-parse";
 import stringify from "remark-stringify";
 import { VFile } from "vfile";
@@ -35,16 +35,12 @@ function releaseNotesExtraction(version: string) {
   }
 }
 
-export default function getReleaseNotes(
-  file: VFile,
-  version: string
-): string {
-  // @ts-ignore
+export default function getReleaseNotes(file: VFile, version: string): string {
   return unified()
     .use(markdown)
     .use(releaseNotesExtraction, version)
     .data("settings", {
-      listItemIndent: "1",
+      listItemIndent: "one",
       tightDefinitions: true,
       bullet: "-"
     })
