@@ -20,7 +20,7 @@ async function run(): Promise<void> {
       date,
       genesisHash,
       owner,
-      repo,
+      repo
     );
     await write(newChangelog, { encoding: "utf-8" });
 
